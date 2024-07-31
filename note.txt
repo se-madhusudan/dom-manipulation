@@ -1,0 +1,15 @@
+//////////////////////////////// Topics \\\\\\\\\\\\\\\\\\\\\\\\\\
+1. What is the DOM? 
+    -Tree like stucture for all html elements rendered on the web page, it defines all html elements as objects and allow to manipulate the stucture and styling of the web page dynamically.
+
+2. Selecting and modifying DOM elements (getElementById, querySelector, innerHTML, style) 
+    -getElementById is used to select the html element with the given id, so that further manipulation can be done 
+    -querySelector is used to select the html elements based on class, id, tag 
+3. Adding event listeners (click, mouseover, etc.)
+
+////////////////////////////////  Tasks \\\\\\\\\\\\\\\\\\\\\\\\\\
+1. Create an HTML file with a div element containing a paragraph of text. 
+2. Use JavaScript to select the div element and change its background color. 
+3. Use JavaScript to select the paragraph element and change its text content. 
+4. Create a button in the HTML file. 
+5. Use JavaScript to add a click event listener to the button that changes the text of the paragraph element when clicked.

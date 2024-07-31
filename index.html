@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 5 - Learning JavaScript (Dom)</title>
+</head>
+<body>
+    <h1>DOM Manipulation</h1>
+    <div id="text">
+        <p>DOM is model of document objects which allows us to manipulate the structure, style of the web page.</p>
+        <button>Show original text</button>
+    </div>
+
+    <h2>Input Event listner</h2>
+    <p>Tpying in below input field will keeping changing the character to upperrcase</p>
+    <input type="text" placeholder="type any alphabet">
+    <p id="inputVal"></p>
+
+
+    <script>
+        //setting the height, width, and background color of div
+        let div = document.getElementById('text');
+        div.style.width = '80vw';
+        div.style.height = '20vh';
+        div.style.padding = '5px 20px';
+        div.style.margin = '10px 0';
+        div.style.backgroundColor = '#191b19';
+
+        //changing the text of the p tag inside the div
+        let divPara = document.querySelector('#text p');
+        divPara.innerText = 'The text of this para was changed using querySelector("#text p")';
+        divPara.style.color = '#fff';
+
+        //adding click event listener to the button
+        let btn = document.querySelector('button');
+        btn.style.border = 'none';
+        btn.style.padding = '10px';
+        btn.style.borderRadius = '10px';
+        btn.style.width = '160px';
+        btn.style.fontSize = '16px';
+        btn.style.cursor = 'pointer';
+        btn.addEventListener('click', showOriginal);
+        btn.addEventListener('mouseover', changeBg);
+
+        //adding input event listener to the input field
+        let inp = document.querySelector('input');
+        inp.addEventListener('input', toUpper);
+            
+
+        function showOriginal() {
+            divPara.innerText = "DOM is model of document objects which allows us to manipulate the structure, style of the web page.";
+            btn.innerText = 'Show modified text';
+            btn.removeEventListener('click', showOriginal); // to prevent stacking of function, and removing previous eventlistner from the button before adding new one
+            btn.addEventListener('click', showModified);
+            console.log(btn.textContent);
+        }
+
+        function showModified() {
+            divPara.innerText = 'The text of this para was changed using querySelector("#text p")';
+            btn.innerText = 'Show original text';
+            btn.removeEventListener('click', showModified); 
+            btn.addEventListener('click', showOriginal);
+            console.log(btn.textContent);
+        }
+
+        function changeBg() {
+            btn.style.backgroundColor = 'orange';
+            btn.removeEventListener('mouseover', changeBg);
+            btn.addEventListener('mouseout', revertBg);
+        }
+
+        function revertBg() {
+            btn.style.backgroundColor = '#fff';
+            btn.removeEventListener('mouseout', revertBg);
+            btn.addEventListener('mouseover', changeBg);
+        }
+
+        function toUpper() {
+            let inpTxt = document.querySelector('#inputVal');
+            let char = inp.value.toUpperCase();
+            console.log(char);
+            inpTxt.innerText = char;
+        }
+    </script>
+</body>
+</html>
