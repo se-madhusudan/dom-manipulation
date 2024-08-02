@@ -4,21 +4,166 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day 5 - Learning JavaScript (Dom)</title>
+    <style>
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            height: 40px;
+        }
+
+        header p{
+            background-color: #000;
+            color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #aiBg{
+            width: 200px;
+            height: 133px;
+            display: none;
+        }
+
+        .imgBtn {
+            width: 160px;
+            background-color: aquamarine;
+            height: auto;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        form {
+            width: 60vw;
+            max-width: 400px;
+        }
+
+        form input {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        input[type='submit'], input[type='reset'] {
+            width: 120px;
+        }
+
+        #formRes, #copyRes, #pasteRes, #contextRes, #clickRes {
+            font-size: 14px;
+            color: green;
+            font-weight: bold;
+        }
+
+        #wheel{
+            width: 400px;
+            height: 260px;
+        }
+
+        #wheel img {
+            width: 100%;
+            object-fit: cover;
+        }
+    </style>
 </head>
 <body>
-    <h1>DOM Manipulation</h1>
+    <header>
+        <h1>DOM Manipulation</h1>
+        <p id="mode">🌑Dark Mode</p>
+    </header>
+
     <div id="text">
         <p>DOM is model of document objects which allows us to manipulate the structure, style of the web page.</p>
         <button>Show original text</button>
     </div>
 
-    <h2>Input Event listner</h2>
+    <hr>
+    <h2>Input Event</h2>
     <p>Tpying in below input field will keeping changing the character to upperrcase</p>
     <input type="text" placeholder="type any alphabet">
     <p id="inputVal"></p>
 
+    <hr>
+    <h2>Double click Event</h2>
+    <p>Double clicking the below button show an image.</p>
+    <img id="aiBg" src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg" alt="ai background">
+    <p class="imgBtn">Double click me</p>
+
+    <hr>
+    <h2>Key down Event</h2>
+    <input type="text" id="keyDown" placeholder="type any character">
+    <p id="keyDownRes"></p>
+
+    <hr>
+    <h2>Key up Event</h2>
+    <input type="text" id="keyUp" placeholder="type any character">
+    <p id="keyUpRes"></p>
+
+    <hr>
+    <h2>Submit and Reset Event</h2>
+    <form>
+        <label for="name">Enter your name: </label>
+        <input type="text" name="name" id="name" required> <br>
+        <label for="empId">Enter your employee id: </label>
+        <input type="number" name="empId" id="empId" min="0" max="300" required> <br>
+        <p id="formRes"></p>
+        <input type="submit" value="Submit Now">
+        <input type="reset" value="Reset Now">
+    </form>
+    
+    <hr>
+    <h2>Focus and Blur Event</h2>
+    <input type="email" name="email" id="email">
+
+    <hr>
+    <h2>Copy Event</h2>
+    <p id="copy">Copy this paragraph to see the result of the copy event.</p>
+    <p id="copyRes"></p>
+
+    <hr>
+    <h2>Paste Event</h2>
+    <input type="text" id="paste" placeholder="paste the copied content">
+    <p id="pasteRes"></p>
+
+    <hr>
+    <h2>Wheel Event</h2>
+    <p>Scrolling on the image will change the image</p>
+    <div id="wheel">
+        <img src="https://images.pexels.com/photos/547114/pexels-photo-547114.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="mountain">
+    </div>
+
+    <hr>
+    <h2>ContextMenu Event</h2>
+    <p>This event listener will count and display the number of times you right click on the web page.</p>
+    <p id="contextRes"></p>
+
+    <hr>
+    <h2>Click Event</h2>
+    <p>This event listener will will show message on clicking something on the screen.</p>
+    <p id="clickRes"></p>
 
     <script>
+        // setting dark/light mode
+        let mode = 'light';
+        document.querySelector('#mode').addEventListener('click', () => {
+            if(mode === 'light') {
+                document.querySelector('body').style.backgroundColor = 'rgb(142 144 145)';
+                document.querySelector('#mode').innerText = '🌕Light Mode';
+                document.querySelector('#mode').style.backgroundColor = "#fff";
+                document.querySelector('#mode').style.color = "#000";
+                mode = 'dark';
+            } else {
+                document.querySelector('body').style.backgroundColor = '#fff';
+                document.querySelector('#mode').innerText = '🌑Dark Mode';
+                document.querySelector('#mode').style.backgroundColor = "#000";
+                document.querySelector('#mode').style.color = "#fff";
+                mode = 'light';
+            }
+        });
+
         //setting the height, width, and background color of div
         let div = document.getElementById('text');
         div.style.width = '80vw';
@@ -47,6 +192,96 @@
         let inp = document.querySelector('input');
         inp.addEventListener('input', toUpper);
             
+
+        // double click even listener
+        let imgBtn = document.querySelector('.imgBtn');
+        imgBtn.addEventListener('dblclick', () => {
+            let aiBg = document.querySelector('#aiBg');
+            if (aiBg.style.display === 'block') {
+                aiBg.style.display = 'none';
+            } else {
+                aiBg.style.display = 'block';
+            }
+        });
+
+        // key down event listener
+        let keyDown = document.querySelector('#keyDown');
+        keyDown.addEventListener('keydown', (event) => {
+            document.querySelector('#keyDownRes').innerText = `You pressed: ${event.key}`;
+        });
+
+        // key up event listener
+        let keyUp = document.querySelector('#keyUp');
+        keyUp.addEventListener('keyup', (event) => {
+            document.querySelector('#keyUpRes').innerText = `You released: ${event.key}`;
+        });
+
+        // submit event listener
+        document.querySelector('form').addEventListener('submit', (event) => {
+            event.preventDefault(); // prevent the deault action, of page reload
+            document.querySelector('#formRes').innerText = `Name: ${document.querySelector('#name').value}, Emp Id: ${document.querySelector('#empId').value}`;
+        });
+
+        //reset event listener
+        document.querySelector('form').addEventListener('reset', () => {
+            document.querySelector('#formRes').innerText = `Form successfully reset`;
+        });
+
+        //focus event listener
+        document.querySelector('#email').addEventListener('focus', () => {
+            document.querySelector('#email').style.backgroundColor = '#000';
+            document.querySelector('#email').style.color = '#fff';
+        });
+
+        //blur event listener
+        document.querySelector('#email').addEventListener('blur', () => {
+            document.querySelector('#email').style.backgroundColor = '#fff';
+            document.querySelector('#email').style.color = '#000';
+        });
+
+        //copy event listener
+        document.querySelector('#copy').addEventListener('copy', () => {
+            document.querySelector('#copyRes').innerText = 'Copied Successfully';
+        });
+
+        //paste event listener
+        document.querySelector('#paste').addEventListener('paste', () => {
+            document.querySelector('#pasteRes').innerText = 'Pasted Successfully';
+        });
+
+        //wheel event listener
+        let curIdx = 0; // image index 
+        document.querySelector('#wheel').addEventListener('wheel', () => {
+            const imgSrc = 
+            ['https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+             
+            'https://images.pexels.com/photos/354939/pexels-photo-354939.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+             
+            'https://images.pexels.com/photos/262713/pexels-photo-262713.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 
+            
+            'https://images.pexels.com/photos/352096/pexels-photo-352096.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+            ];
+            
+            document.querySelector('#wheel img').src = imgSrc[curIdx];
+
+            curIdx = (curIdx + 1) % imgSrc.length; //loop back to start
+            
+        });
+
+        //context menu event listener
+        let rightClickCount = 0;
+        document.querySelector('body').addEventListener('contextmenu', () => {
+            rightClickCount += 1;
+            document.querySelector('#contextRes').innerText = `You right clicked : ${rightClickCount} times.`;
+        });
+
+        //click event listener
+        let selectCount = 0;
+        document.querySelector('body').addEventListener('click', () => {
+            selectCount += 1;
+            document.querySelector('#clickRes').innerText = `You selected : ${selectCount} times.`;
+        });
+
 
         function showOriginal() {
             divPara.innerText = "DOM is model of document objects which allows us to manipulate the structure, style of the web page.";
@@ -82,6 +317,7 @@
             console.log(char);
             inpTxt.innerText = char;
         }
+
     </script>
 </body>
 </html>
